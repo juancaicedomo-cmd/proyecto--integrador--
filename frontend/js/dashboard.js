@@ -182,7 +182,9 @@ function updateStats() {
 
 // --- Chart ---
 function updateCharts() {
-    const ctx = document.getElementById('typeChart').getContext('2d');
+    const canvas = document.getElementById('typeChart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
     const counts = { Carro: 0, Moto: 0, Camioneta: 0 };
     vehicles.filter(v => v.estado === 'activo').forEach(v => counts[v.tipo]++);
     
@@ -254,13 +256,19 @@ function printReceipt() {
     document.getElementById('printTime').textContent = `${bill.hours}h ${bill.minutes}m`;
     document.getElementById('printTotal').textContent = `$${bill.amount.toLocaleString()}`;
     
-    const printArea = document.getElementById('printableReceipt');
-    printArea.style.display = 'block';
     window.print();
-    printArea.style.display = 'none';
 }
 
 // --- Events ---
+document.getElementById('placa').oninput = (e) => e.target.value = e.target.value.toUpperCase();
+document.getElementById('searchPlate').oninput = () => renderTable();
+
+document.getElementById('logoutBtn').onclick = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = 'login.html';
+};
+
 document.getElementById('vehicleForm').onsubmit = async (e) => {
     e.preventDefault();
     const placa = document.getElementById('placa').value.toUpperCase();

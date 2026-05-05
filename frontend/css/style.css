@@ -100,12 +100,13 @@ body { margin: 0; font-family: 'Outfit', sans-serif; background: var(--bg); colo
 .nav-link:hover, .nav-link.active { background: rgba(255,255,255,0.05); color: white; }
 .nav-link.active { background: var(--primary); box-shadow: 0 10px 15px -3px var(--primary-glow); }
 
-.user-profile-card { background: rgba(255,255,255,0.05); padding: 1.25rem; border-radius: 20px; display: flex; align-items: center; justify-content: space-between; }
+.user-profile-card { background: rgba(255,255,255,0.05); padding: 1.25rem; border-radius: 20px; display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
 .user-info { display: flex; align-items: center; gap: 12px; }
 .avatar { background: #fbbf24; color: #78350f; width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; }
-.details .name { display: block; font-size: 0.85rem; font-weight: 700; }
+.details .name { display: block; font-size: 0.85rem; font-weight: 700; color: white; }
 .details .role { font-size: 0.7rem; color: #94a3b8; }
-.logout-mini-btn { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.1rem; padding: 5px; }
+.logout-mini-btn { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1.1rem; padding: 5px; transition: 0.3s; }
+.logout-mini-btn:hover { transform: scale(1.2); }
 
 /* Header UI */
 .top-nav { background: rgba(255,255,255,0.8); backdrop-filter: blur(12px); padding: 1rem 2.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; }
@@ -152,14 +153,13 @@ td:last-child { border-right: 1px solid var(--border); border-radius: 0 16px 16p
 .input-group input:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 5px var(--primary-glow); }
 
 .primary-card { background: var(--primary); color: white; border: none; box-shadow: 0 20px 40px var(--primary-glow); }
+.primary-card h3 { color: white; }
 .primary-card .input-group label { color: rgba(255,255,255,0.8); }
 .primary-card input, .primary-card select { 
-    background: rgba(255,255,255,1); /* Cambio a fondo blanco solido para maxima visibilidad */
-    border: 2px solid rgba(255,255,255,0.2); 
-    color: #1e293b; /* Texto oscuro para que se vea claro al escribir */
-    font-weight: 800;
+    background: white; 
+    border: none; 
+    color: #1e293b; 
 }
-.primary-card input::placeholder { color: #94a3b8; }
 .submit-btn { width: 100%; padding: 1.25rem; border-radius: 16px; border: none; background: white; color: var(--primary); font-weight: 800; font-size: 1rem; cursor: pointer; transition: 0.3s; margin-top: 1rem; }
 .submit-btn:hover { transform: scale(1.02); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
 
@@ -177,7 +177,8 @@ td:last-child { border-right: 1px solid var(--border); border-radius: 0 16px 16p
 /* Custom Search */
 .search-bar { position: relative; width: 250px; }
 .search-bar i { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
-.search-bar input { width: 100%; padding: 0.6rem 1rem 0.6rem 2.5rem; border-radius: 12px; border: 2.2px solid var(--border); font-size: 0.85rem; }
+.search-bar input { width: 100%; padding: 0.6rem 1rem 0.6rem 2.5rem; border-radius: 12px; border: 2.2px solid var(--border); font-size: 0.85rem; transition: 0.3s; }
+.search-bar input:focus { border-color: var(--primary); width: 280px; }
 
 /* Animations */
 .tab-view { display: none; animation: fadeIn 0.4s ease; }
@@ -193,3 +194,10 @@ td:last-child { border-right: 1px solid var(--border); border-radius: 0 16px 16p
 #toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 3000; }
 .toast { background: white; padding: 1.25rem 1.75rem; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin-bottom: 12px; display: flex; align-items: center; gap: 12px; font-weight: 700; border-left: 6px solid var(--primary); animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 @keyframes slideIn { from { transform: translateX(50px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+/* Printing */
+@media print {
+    body * { visibility: hidden; }
+    #printableReceipt, #printableReceipt * { visibility: visible; }
+    #printableReceipt { position: absolute; left: 0; top: 0; width: 100%; display: block !important; }
+}

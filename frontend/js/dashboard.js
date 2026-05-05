@@ -48,11 +48,18 @@ function switchTab(id) {
 
 // --- Data Fetching ---
 async function loadData() {
+    const loader = document.getElementById('mainLoader');
+    if (loader) loader.style.display = 'flex';
     try {
         const res = await fetch(`${API_BASE}/vehiculos`);
         vehicles = await res.json();
         renderDashboard();
-    } catch (e) { console.error('Error:', e); }
+    } catch (e) { 
+        console.error('Error:', e);
+        showToast('Error al conectar con el servidor', 'info');
+    } finally {
+        if (loader) setTimeout(() => loader.style.display = 'none', 500);
+    }
 }
 
 async function loadAdmins() {

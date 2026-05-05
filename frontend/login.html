@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | PARKING MASTER PRO</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="auth-page">
+    
+    <div class="auth-card">
+        <div class="logo-box">
+            <i class="fas fa-parking"></i>
+        </div>
+        <h1>PARKING MASTER PRO</h1>
+        <p>Inicia sesión para gestionar tu patio</p>
+        
+        <div id="alert" class="alert alert-danger" style="display:none; margin-bottom: 1rem;"></div>
+
+        <form id="loginForm" class="auth-form">
+            <div class="input-group">
+                <label for="email">CORREO ELECTRÓNICO</label>
+                <input type="email" id="email" placeholder="admin@correo.com" required>
+            </div>
+            <div class="input-group">
+                <label for="password">CONTRASEÑA</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="auth-btn">
+                ACCEDER AL PANEL <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            ¿Nuevo por aquí? <a href="register.html">Crea una cuenta pro</a>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>

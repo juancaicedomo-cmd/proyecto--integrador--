@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | PARKING MASTER PRO</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="pro-layout">
+    <!-- Sidebar Pro -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-box"><i class="fas fa-parking"></i></div>
+            <h1 id="parkingNameDisplay">PARKING MASTER PRO</h1>
+        </div>
+        
+        <nav class="nav-menu">
+            <a href="#" class="nav-link active" id="navDashboard" onclick="switchTab('dashboard')">
+                <i class="fas fa-chart-line"></i> Dashboard
+            </a>
+            <a href="#" class="nav-link" id="navHistory" onclick="switchTab('history')">
+                <i class="fas fa-file-invoice-dollar"></i> Transacciones
+            </a>
+            <a href="#" class="nav-link" id="navAdmins" onclick="switchTab('admins')">
+                <i class="fas fa-user-shield"></i> Personal
+            </a>
+            <a href="#" class="nav-link" id="navSettings" onclick="switchTab('settings')">
+                <i class="fas fa-sliders-h"></i> Configuración
+            </a>
+        </nav>
+
+        <div class="user-profile-card">
+            <div class="user-info">
+                <div class="avatar" id="userInitial">U</div>
+                <div class="details">
+                    <span id="userName" class="name">Usuario</span>
+                    <span class="role">Administrador</span>
+                </div>
+            </div>
+            <button id="logoutBtn" class="logout-mini-btn"><i class="fas fa-power-off"></i></button>
+        </div>
+    </aside>
+
+    <!-- Main Content Pro -->
+    <main class="main">
+        <header class="top-nav glass">
+            <div class="header-left">
+                <h2 id="tabTitle">Resumen de Operaciones</h2>
+                <span id="currentDate" class="date-badge">01 Ene 2024</span>
+            </div>
+            <div class="header-right">
+                <div class="clock-box" id="realTimeClock">00:00:00</div>
+                <div class="divider"></div>
+                <button id="themeToggle" class="icon-btn"><i class="fas fa-moon"></i></button>
+            </div>
+        </header>
+
+        <div class="view-container">
+            <!-- VIEW: DASHBOARD -->
+            <div id="dashboardTab" class="tab-view active">
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-icon income"><i class="fas fa-wallet"></i></div>
+                        <div class="stat-data">
+                            <span class="label">Ingresos del Día</span>
+                            <div class="value" id="dailyRevenue">$0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon occupancy"><i class="fas fa-car"></i></div>
+                        <div class="stat-data">
+                            <span class="label">Ocupación Actual</span>
+                            <div class="value" id="occupancyPercent">0%</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon slots"><i class="fas fa-th-list"></i></div>
+                        <div class="stat-data">
+                            <span class="label">Cupos Libres</span>
+                            <div class="value" id="availableSlots">20</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="main-col">
+                        <div class="card glass">
+                            <div class="card-header">
+                                <h3><i class="fas fa-stream"></i> Vehículos en Patio</h3>
+                                <div class="search-bar">
+                                    <i class="fas fa-search"></i>
+                                    <input type="text" id="searchPlate" placeholder="Buscar placa...">
+                                </div>
+                            </div>
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>PLACA</th>
+                                            <th>CATEGORÍA</th>
+                                            <th>INGRESO</th>
+                                            <th>TIEMPO</th>
+                                            <th>ACCIÓN</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="vehicleList"></tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-th"></i> Mapa Visual del Patio</h3>
+                                <div class="map-legend">
+                                    <span class="dot free"></span> Libre
+                                    <span class="dot busy"></span> Ocupado
+                                </div>
+                            </div>
+                            <div class="parking-grid" id="parkingMap"></div>
+                        </div>
+                    </div>
+
+                    <div class="side-col">
+                        <div class="card primary-card">
+                            <h3><i class="fas fa-plus-circle"></i> Nuevo Ingreso</h3>
+                            <form id="vehicleForm">
+                                <div class="input-group">
+                                    <label>NÚMERO DE PLACA</label>
+                                    <input type="text" id="placa" placeholder="ABC-123" required>
+                                </div>
+                                <div class="input-group">
+                                    <label>TIPO DE VEHÍCULO</label>
+                                    <select id="tipo">
+                                        <option value="Carro">Automóvil 🚗</option>
+                                        <option value="Moto">Motocicleta 🏍️</option>
+                                        <option value="Camioneta">Camioneta 🛻</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="submit-btn">REGISTRAR ENTRADA</button>
+                            </form>
+                        </div>
+
+                        <div class="card">
+                            <h3><i class="fas fa-chart-pie"></i> Distribución</h3>
+                            <canvas id="typeChart" height="250"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: HISTORY -->
+            <div id="historyTab" class="tab-view">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Historial Completo de Salidas</h3>
+                        <button class="btn-action" onclick="exportToCSV()"><i class="fas fa-file-csv"></i> EXPORTAR DATOS</button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>PLACA</th>
+                                    <th>TIPO</th>
+                                    <th>INGRESO</th>
+                                    <th>SALIDA</th>
+                                    <th>DURACIÓN</th>
+                                    <th>PAGO</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyList"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: ADMINS -->
+            <div id="adminsTab" class="tab-view">
+                <div class="card">
+                    <h3>Personal Administrativo</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>NOMBRE</th>
+                                    <th>EMAIL</th>
+                                    <th>ROL</th>
+                                    <th>ESTADO</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminList"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: SETTINGS -->
+            <div id="settingsTab" class="tab-view">
+                <div class="settings-grid">
+                    <div class="card">
+                        <h3><i class="fas fa-university"></i> Datos del Negocio</h3>
+                        <div class="input-group">
+                            <label>Nombre del Parqueadero</label>
+                            <input type="text" id="setParkingName" placeholder="Ej: Central Parking">
+                        </div>
+                        <div class="input-group">
+                            <label>Cupos Totales en Patio</label>
+                            <input type="number" id="setTotalSlots" value="20">
+                        </div>
+                        <button class="btn-action" onclick="saveGeneralSettings()">Guardar Cambios</button>
+                    </div>
+
+                    <div class="card">
+                        <h3><i class="fas fa-tags"></i> Configuración de Tarifas (por hora)</h3>
+                        <div class="input-group">
+                            <label>🚗 Tarifa Carro ($)</label>
+                            <input type="number" id="rateCarro" value="5000">
+                        </div>
+                        <div class="input-group">
+                            <label>🏍️ Tarifa Moto ($)</label>
+                            <input type="number" id="rateMoto" value="3000">
+                        </div>
+                        <div class="input-group">
+                            <label>🛻 Tarifa Camioneta ($)</label>
+                            <input type="number" id="rateCamioneta" value="7000">
+                        </div>
+                        <button class="btn-action" onclick="saveRates()">Actualizar Precios</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="modalVehicle">
+        <div class="modal pro-modal">
+            <div class="modal-header">
+                <span class="badge" id="vDetailType">CARRO</span>
+                <button class="close-modal" onclick="closeModals()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="plate-hero" id="vDetailPlate">ABC-123</div>
+                <div class="bill-summary">
+                    <div class="item"><span>Tiempo:</span> <strong id="vDetailTime">0h 0m</strong></div>
+                    <div class="item total"><span>Total a Cobrar:</span> <strong id="vDetailBill">$0</strong></div>
+                </div>
+                <div class="action-grid">
+                    <button class="btn-pay" id="btnConfirmExit"><i class="fas fa-check-circle"></i> PAGAR Y SALIR</button>
+                    <button class="btn-print" onclick="printReceipt()"><i class="fas fa-print"></i> RECIBO</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Receipt -->
+    <div id="printableReceipt" style="display: none; font-family: monospace; padding: 20px; width: 300px;">
+        <h2 style="text-align: center;" id="printHeader">PARKING PRO</h2>
+        <p>--------------------------------</p>
+        <p>PLACA: <span id="printPlate"></span></p>
+        <p>TIPO: <span id="printType"></span></p>
+        <p>INGRESO: <span id="printIn"></span></p>
+        <p>SALIDA: <span id="printOut"></span></p>
+        <p>DURACION: <span id="printTime"></span></p>
+        <p>--------------------------------</p>
+        <h3 style="text-align: right;">TOTAL: <span id="printTotal"></span></h3>
+        <p style="text-align: center;">¡Vuelva pronto!</p>
+    </div>
+
+    <div id="toast-container"></div>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
